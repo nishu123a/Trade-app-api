@@ -16,3 +16,5 @@ spring:
       ddl-auto: update
     open-in-view: false
     database-platform: org.hibernate.dialect.PostgreSQLDialect
+springdoc:
+  packages-to-scan: in.nishu.tradex.auth_service.controller

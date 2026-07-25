@@ -1,9 +1,0 @@
-<component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="auth-servicce" type="Application" factoryName="Application">
-    <option name="MAIN_CLASS_NAME" value="in.nishu.tradex.auth_service.AuthServiceApplication" />
-    <module name="auth-service" />
-    <method v="2">
-      <option name="Make" enabled="true" />
-    </method>
-  </configuration>
-</component>

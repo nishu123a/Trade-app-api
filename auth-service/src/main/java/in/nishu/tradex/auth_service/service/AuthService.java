@@ -29,7 +29,6 @@ public class AuthService {
     private final RevokedTokenRepository revokedTokenRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenService jwtTokenService;
-    private final AuthService authService;
 
     @Transactional
     public AuthResponse signup(SignupRequest request) {
@@ -66,7 +65,7 @@ public class AuthService {
 
     @Transactional(readOnly = true)
     public AuthResponse refresh(String refreshToken) {
-        if (refreshToken == null || sha256(refreshToken) == null || revokedTokenRepository.existsById(sha256(refreshToken)) || !jwtTokenService.isRefreshToken(refreshToken)) {
+        if (refreshToken == null || revokedTokenRepository.existsById(sha256(refreshToken)) || !jwtTokenService.isRefreshToken(refreshToken)) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid refresh token");
         }
 
