@@ -68,7 +68,6 @@ public class JwtGatewayFilter  implements GlobalFilter, Ordered {
          }
     }
 
-
     @Override
     public int getOrder() {
         return -100;
