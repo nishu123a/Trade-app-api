@@ -4,6 +4,7 @@ import in.nishu.tradex.market_service.entity.Stock;
 import in.nishu.tradex.market_service.repositories.StockRepository;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.math.BigDecimal;
@@ -11,6 +12,7 @@ import java.util.List;
 
 @Configuration
 public class StockDataSeeder {
+    @Bean
     ApplicationRunner seedStocks(StockRepository stockRepository){
         return (ApplicationArguments args)-> {
             if (stockRepository.count() > 0) {
@@ -30,15 +32,16 @@ public class StockDataSeeder {
             ));
         };
     }
+
     private Stock stock(String symbol, String name, String exchange, String sector, String price, boolean synthetic){
-        Stock.StockBuilder stockBuilder = Stock.builder()
+        return Stock.builder()
                 .symbol(symbol)
                 .name(name)
                 .exchange(exchange)
                 .sector(sector)
-                .referencePrice(new BigDecimal((price))
-                        .synthetic(synthetic)
-                        .build());
-        return stockBuilder;
+                .referencePrice(new BigDecimal(price))
+                .synthetic(synthetic)
+                .build();
         }
 }
+

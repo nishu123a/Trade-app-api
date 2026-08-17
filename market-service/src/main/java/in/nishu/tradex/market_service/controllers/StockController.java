@@ -1,18 +1,30 @@
 package in.nishu.tradex.market_service.controllers;
+import in.nishu.tradex.market_service.dtos.StockResponse;
+import in.nishu.tradex.market_service.service.StockService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import  org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
-import in.nishu.tradex.common_lib.api.ApiError;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.server.ResponseStatusException;
 
-@RestControllerAdvice
+@RestController
+@RequestMapping("/api/stocks")
+@RequiredArgsConstructor
 public class StockController {
-    @ExceptionHandler(ResponseStatusException.class)
+    private final StockService stockService;
 
-    ResponseEntity<ApiError> responseStatus(ResponseStatusException exception){
-        int status =exception.getStatusCode().value();
-        String error=exception.getStatusCode().toString();
-        return ResponseEntity.status(status).body(ApiError.of(status,error,exception.getReason()));
+    @GetMapping
+    Page<StockResponse> stocks(@RequestParam(required = false) String q, @PageableDefault(size=20,sort = "symbol")Pageable pageable){
+        return stockService.findAll(q,pageable);
+    }
+    @GetMapping("/{symbol}")
+    StockResponse stock(@PathVariable String symbol){
+        return stockService.findBySymbol(symbol);
+    }
+    @GetMapping("/search")
+    List<StockResponse> search(@RequestParam String q){
+        return stockService.search(q);
     }
 }

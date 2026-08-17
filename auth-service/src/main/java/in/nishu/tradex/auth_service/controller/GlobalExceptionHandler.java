@@ -18,6 +18,7 @@ public class GlobalExceptionHandler {
     ResponseEntity<ApiError> validation(MethodArgumentNotValidException exception){
         var details =exception.getBindingResult().getFieldErrors().stream().map(this::format).toList();
         return ResponseEntity.badRequest().body(ApiError.of(400,"Bad request","Validation failed",details));
+
     }
 
     @ExceptionHandler(BadCredentialsException.class)

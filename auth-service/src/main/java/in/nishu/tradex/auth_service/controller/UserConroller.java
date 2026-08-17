@@ -1,6 +1,7 @@
 package in.nishu.tradex.auth_service.controller;
 
 import in.nishu.tradex.auth_service.dtos.AuthDtos.UserResponse;
+import in.nishu.tradex.auth_service.dtos.UserDtos;
 import in.nishu.tradex.auth_service.dtos.UserDtos.ChangePasswordRequest;
 import in.nishu.tradex.auth_service.service.UserService;
 import in.nishu.tradex.common_lib.security.JwtPrincipal;
@@ -17,8 +18,14 @@ import org.springframework.web.bind.annotation.*;
 public class UserConroller {
     private final UserService userService;
     @GetMapping("/me")
-    UserResponse updateProfile(@AuthenticationPrincipal JwtPrincipal token){
+    UserResponse me(@AuthenticationPrincipal JwtPrincipal token){
         return userService.me(token);
+    }
+
+    @PutMapping("/me")
+    UserResponse updateProfile(@AuthenticationPrincipal JwtPrincipal token,
+                                        @Valid @RequestBody UserDtos.UpdateProfileRequest request) {
+        return userService.updateProfile(token, request);
     }
 
     @PutMapping("/password")

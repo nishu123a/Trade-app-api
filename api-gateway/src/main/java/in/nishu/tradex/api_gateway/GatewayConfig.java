@@ -1,17 +1,15 @@
 package in.nishu.tradex.api_gateway;
-
 import in.nishu.tradex.common_lib.security.JwtProperties;
 import in.nishu.tradex.common_lib.security.JwtTokenService;
-import lombok.Value;
-import org.apache.catalina.filters.CorsFilter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.cors.reactive.CorsWebFilter;
+import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 
+import org.springframework.web.cors.reactive.CorsWebFilter;
 import java.util.List;
 
 @Configuration
@@ -34,7 +32,7 @@ public class GatewayConfig {
                         .path("/api/stocks/**")
                         .uri(marketServiceUrl))
                 .route("portfolio-api", route -> route
-                        .path("/api/portfolio/**", "/api/orders/**")
+                        .path("/api/portfolio/**", "/api/orders/**","/api/transactions/**")
                         .uri(portfolioServiceUrl))
                 .route("auth-openapi", route -> route
                         .path("/auth/v3/api-docs")
@@ -42,7 +40,7 @@ public class GatewayConfig {
                                 "/v3/api-docs"))
                         .uri(authServiceUrl))
                 .route("market-openapi", route -> route
-                        .path("/market/v3/api-ddocs")
+                        .path("/market/v3/api-docs")
                         .filters(filter -> filter.rewritePath("/market/v3/api-docs",
                                 "/v3/api-docs"))
                         .uri(marketServiceUrl))
@@ -54,15 +52,17 @@ public class GatewayConfig {
                 .build();
     }
 
-            @Bean
-            CorsFilter corsWebFilter(){
-                CorsConfiguration configuration=new CorsConfiguration();
-                configuration.setAllowedOriginPatterns(List.of("*"));
-                configuration.setAllowedMethods(List.of("GET","POST","PUT","PATCH","DELETE","OPTIONS"));
-                configuration.setExposedHeaders(List.of("Authorization","Content-Type","Location"));
-                configuration.setMaxAge(3600L);
-                UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-                source.registerCorsConfiguration("/**",configuration);
-                return new CorsWebFilter(source);
-        }
+    @Bean
+    CorsWebFilter corsWebFilter() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOriginPatterns(List.of("*"));
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
+        configuration.setAllowedHeaders(List.of("*"));
+        configuration.setExposedHeaders(List.of("Authorization", "Content-Type", "Location"));
+        configuration.setMaxAge(3600L);
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return new CorsWebFilter(source);
+    }
+
 }

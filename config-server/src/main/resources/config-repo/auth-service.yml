@@ -1,5 +1,5 @@
 server:
-  port: ${AUTH_SERVICE_PORT}
+  port: ${AUTH_SERVICE_PORT:8081}
 
 spring:
   datasource:
@@ -13,8 +13,14 @@ spring:
         jdbc:
           time_zone: Asia/Kolkata
     hibernate:
-      ddl-auto: update
+    ddl-auto: update
     open-in-view: false
     database-platform: org.hibernate.dialect.PostgreSQLDialect
 springdoc:
   packages-to-scan: in.nishu.tradex.auth_service.controller
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info

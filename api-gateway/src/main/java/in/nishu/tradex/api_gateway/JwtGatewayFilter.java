@@ -6,7 +6,7 @@ import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
 import org.springframework.http.*;
-import org.springframework.http.server.ServerHttpRequest;
+import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
@@ -38,6 +38,7 @@ public class JwtGatewayFilter  implements GlobalFilter, Ordered {
          response.getHeaders().setContentType(MediaType.APPLICATION_JSON);
 
          byte[] body =("{\"status\":401,\"error\":Unauthorized\",\"message\":\""+message+"\"}")
+
                  .getBytes(StandardCharsets.UTF_8);
          return response.writeWith(Mono.just(response.bufferFactory().wrap(body)));
 

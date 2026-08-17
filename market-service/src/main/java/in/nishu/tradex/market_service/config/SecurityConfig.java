@@ -40,7 +40,7 @@ public class SecurityConfig {
     SecurityFilterChain seccurityFilterChain(HttpSecurity http,JwtTokenService jwtTokenService) throws Exception {
         return http
                 .cors(Customizer.withDefaults())
-                .csrf(csrf->csrf.disable())
+                .csrf(csrf->csrf.disable())  //session +cookies were used before for autheniication now JWtToken is used
                 .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth->auth
                         .requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()

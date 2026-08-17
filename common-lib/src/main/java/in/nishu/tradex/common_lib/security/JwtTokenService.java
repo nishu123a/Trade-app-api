@@ -3,7 +3,6 @@ package in.nishu.tradex.common_lib.security;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
-
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
@@ -75,8 +74,7 @@ public class JwtTokenService {
             throw new IllegalStateException("Missing required configuration: tradex.jwt.secret");
         }
         if (properties.getSecret().getBytes(StandardCharsets.UTF_8).length < 32) {
-            throw new IllegalStateException(
-                    "Configuration tradex.jwt.secret must be at least 32 bytes for HS256 signing");
+            throw new IllegalStateException("Configuration tradex.jwt.secret must be at least 32 bytes for HS256 signing");
         }
         if (Objects.requireNonNullElse(properties.getAccessTokenMinutes(), 0L) <= 0) {
             throw new IllegalStateException("Configuration tradex.jwt.access-token-minutes must be greater than zero");

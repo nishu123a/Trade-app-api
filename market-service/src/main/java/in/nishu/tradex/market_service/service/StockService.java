@@ -5,7 +5,7 @@ import in.nishu.tradex.market_service.entity.Stock;
 import in.nishu.tradex.market_service.repositories.StockRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatusCode;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
@@ -31,7 +31,7 @@ public class StockService {
     public StockResponse findBySymbol(String symbol){
         return stockRepository.findById(symbol.trim().toUpperCase())
                 .map((this::toResponse))
-                .orElseThrow(()->new ResponseStatusException(HttpStatusCode.NOT_FOUND,"Stock not found"));
+                .orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND,"Stock not found"));
     }
 
     @Transactional(readOnly = true)

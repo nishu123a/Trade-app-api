@@ -54,7 +54,7 @@ public class AuthService {
 
 
     @Transactional(readOnly = true)
-    public AuthResponse login(LoginRequest request) {
+    public AuthResponse  login(LoginRequest request) {
         User user = userRepository.findByEmailIgnoreCase(request.email())
                 .orElseThrow(() -> new BadCredentialsException("Invalid Email or Password"));
         if (!passwordEncoder.matches(request.password(), user.getPasswordHash())) {
@@ -80,6 +80,7 @@ public class AuthService {
     public void logout(String refreshToken) {
         revokedTokenRepository.save(new RevokedToken(sha256(refreshToken)));
     }
+
     private AuthResponse tokensFor(User user){
         Set<String> roles = Set.copyOf(user.getRoles().stream().sorted().map(Enum::toString).toList());
 
