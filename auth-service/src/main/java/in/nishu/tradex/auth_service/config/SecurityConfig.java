@@ -8,6 +8,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
@@ -65,7 +66,6 @@ public class SecurityConfig {
                         .anyRequest().authenticated())
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
-
     }
 
     @Bean
@@ -93,7 +93,7 @@ public class SecurityConfig {
         @Override
         protected void doFilterInternal(HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
             String header = request.getHeader(HttpHeaders.AUTHORIZATION);
-            if (header != null && header.startsWith("Bearer")) {
+            if (header != null && header.startsWith("Bearer ")) {
                 String token = header.substring(7);
 
                 try {
@@ -115,7 +115,8 @@ public class SecurityConfig {
                 byte[] digest = MessageDigest.getInstance("SHA-256").digest(value.getBytes(StandardCharsets.UTF_8));
                 StringBuilder builder = new StringBuilder();
                 for (byte b : digest) {
-                    builder.append(String.format("%02x", b));
+                    builder.append
+                            (String.format("%02x", b));
                 }
                 return builder.toString();
             } catch (NoSuchAlgorithmException exception) {

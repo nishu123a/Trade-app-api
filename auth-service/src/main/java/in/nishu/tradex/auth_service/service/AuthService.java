@@ -51,10 +51,8 @@ public class AuthService {
         return tokensFor(user);
     }
 
-
-
     @Transactional(readOnly = true)
-    public AuthResponse  login(LoginRequest request) {
+    public AuthResponse login(LoginRequest request) {
         User user = userRepository.findByEmailIgnoreCase(request.email())
                 .orElseThrow(() -> new BadCredentialsException("Invalid Email or Password"));
         if (!passwordEncoder.matches(request.password(), user.getPasswordHash())) {
@@ -86,7 +84,7 @@ public class AuthService {
 
         return new AuthResponse(
                 jwtTokenService.createAccessToken(user.getId(), user.getEmail(), roles),
-                jwtTokenService.createRefreshToken(user.getId(),user.getEmail(),roles),
+                jwtTokenService.createRefreshToken(user.getId(), user.getEmail(), roles),
                 toResponse(user));
     }
     UserResponse toResponse(User user) {

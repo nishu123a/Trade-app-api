@@ -2,7 +2,7 @@ package in.nishu.tradex.common_lib.security;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-@ConfigurationProperties(prefix = "tradex.jwt")
+@ConfigurationProperties(prefix = "tradex.jwt")//eureka-server
 public class JwtProperties {
     private String issuer;
     private String secret;

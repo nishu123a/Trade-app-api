@@ -10,12 +10,12 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
-    open-in-view: false
+      open-in-view: false
     database-platform: org.hibernate.dialect.PostgreSQLDialect
 
 tradex:
   trading:
-    starting-cash: ${TRADEX_STARTING_CASH:1000000.00
+    starting-cash: ${TRADEX_STARTING_CASH:1000000.00}
 
 springdoc:
   package-to-scan: in.nishu.tradex.portfolio_service.controller
