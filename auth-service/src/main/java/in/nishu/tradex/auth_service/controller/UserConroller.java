@@ -5,7 +5,8 @@ import in.nishu.tradex.auth_service.dtos.UserDtos;
 import in.nishu.tradex.auth_service.dtos.UserDtos.ChangePasswordRequest;
 import in.nishu.tradex.auth_service.service.UserService;
 import in.nishu.tradex.common_lib.security.JwtPrincipal;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import org.springframework.web.bind.annotation.RequestBody;
+
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -24,7 +25,11 @@ public class UserConroller {
 
     @PutMapping("/me")
     UserResponse updateProfile(@AuthenticationPrincipal JwtPrincipal token,
-                                        @Valid @RequestBody UserDtos.UpdateProfileRequest request) {
+                                @RequestBody UserDtos.UpdateProfileRequest request) {
+        System.out.println("STEP 1 - Controller reached");
+        System.out.println("FULL NAME = [" + request.fullName() + "]");
+
+
         return userService.updateProfile(token, request);
     }
 

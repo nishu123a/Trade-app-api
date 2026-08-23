@@ -1,10 +1,12 @@
 package in.nishu.tradex.auth_service.dtos;
-
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 public record UserDtos() {
-    public record UpdateProfileRequest(@NotBlank @Size(min=2,max=120) String fullName){
+    public record UpdateProfileRequest(
+            @JsonProperty("fullName")
+            String fullName){
 
     }
 

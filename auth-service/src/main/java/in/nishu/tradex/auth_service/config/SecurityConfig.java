@@ -8,7 +8,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
@@ -104,6 +103,8 @@ public class SecurityConfig {
                         SecurityContextHolder.getContext().setAuthentication(authentication);
                     }
                 } catch (RuntimeException ignored) {
+                    System.err.println("JWT authentication failed: " + ignored.getMessage());
+                    ignored.printStackTrace();
                     SecurityContextHolder.clearContext();
                 }
             }

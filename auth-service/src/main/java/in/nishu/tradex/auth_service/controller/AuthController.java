@@ -1,5 +1,4 @@
 package in.nishu.tradex.auth_service.controller;
-
 import in.nishu.tradex.auth_service.dtos.AuthDtos.SignupRequest;
 import in.nishu.tradex.auth_service.service.AuthService;
 import jakarta.validation.Valid;
@@ -10,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import in.nishu.tradex.auth_service.dtos.AuthDtos.LogoutRequest;
 import in.nishu.tradex.auth_service.dtos.AuthDtos.RefreshRequest;
 import in.nishu.tradex.auth_service.dtos.AuthDtos.LoginRequest;
-
 
 @RestController
 @RequestMapping("/api/auth")

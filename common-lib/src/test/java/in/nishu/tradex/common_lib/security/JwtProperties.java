@@ -16,7 +16,7 @@ public class JwtProperties {
     public void setIssuer(String issuer) {
         this.issuer = issuer;
     }
-    public String getSecret() {
+     public String getSecret() {
         return secret;
     }
 
