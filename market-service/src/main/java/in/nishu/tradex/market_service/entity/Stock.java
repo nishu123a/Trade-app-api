@@ -11,10 +11,8 @@ import lombok.Data;
 import java.math.BigDecimal;
 
 @Entity
-@Data
 @Table(name="stocks_table")
 @Builder
-@AllArgsConstructor
 public class Stock {
     @Id
     @Column(nullable =false,unique=true,length=32)
@@ -39,5 +37,60 @@ public class Stock {
 
     }
 
+    public Stock(String symbol, String exchange, String name, String sector, BigDecimal referencePrice, boolean synthetic) {
+        this.symbol = symbol;
+        this.exchange = exchange;
+        this.name = name;
+        this.sector = sector;
+        this.referencePrice = referencePrice;
+        this.synthetic = synthetic;
+    }
 
+    public String getSymbol() {
+        return symbol;
+    }
+
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getExchange() {
+        return exchange;
+    }
+
+    public void setExchange(String exchange) {
+        this.exchange = exchange;
+    }
+
+    public String getSector() {
+        return sector;
+    }
+
+    public void setSector(String sector) {
+        this.sector = sector;
+    }
+
+    public boolean isSynthetic() {
+        return synthetic;
+    }
+
+    public void setSynthetic(boolean synthetic) {
+        this.synthetic = synthetic;
+    }
+
+    public BigDecimal getReferencePrice() {
+        return referencePrice;
+    }
+
+    public void setReferencePrice(BigDecimal referencePrice) {
+        this.referencePrice = referencePrice;
+    }
 }

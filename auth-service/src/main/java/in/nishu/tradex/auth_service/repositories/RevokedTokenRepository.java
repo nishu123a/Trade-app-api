@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface RevokedTokenRepository extends JpaRepository<RevokedToken,String> {
 
-
+    // boolean existsById(String tokenHash);
 }

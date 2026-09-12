@@ -1,6 +1,8 @@
 package in.nishu.tradex.api_gateway;
 
 import in.nishu.tradex.common_lib.security.JwtTokenService;
+import jakarta.validation.constraints.NotNull;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
@@ -26,7 +28,10 @@ public class JwtGatewayFilter  implements GlobalFilter, Ordered {
             "v3/api-docs",
             "/auth/v3/api-docs",
             "/market/v3/api-docs",
-            "/portfolio/v3/api-docs");
+            "/portfolio/v3/api-docs",
+            "prices/v3/api-docs",
+            "/notifications/v3/api-docs",
+            "/ws");
      private final JwtTokenService jwtTokenService;
      private boolean isPublic(String path){
          return PUBLIC_PATHS.stream().anyMatch(path::startsWith);
@@ -45,7 +50,7 @@ public class JwtGatewayFilter  implements GlobalFilter, Ordered {
      }
 
     @Override
-    public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
+    public Mono<Void> filter(@NotNull ServerWebExchange exchange, @NonNull  GatewayFilterChain chain) {
          String path=exchange.getRequest().getURI().getPath();
          if(exchange.getRequest().getMethod()== HttpMethod.OPTIONS|| isPublic(path))
          return chain.filter(exchange);

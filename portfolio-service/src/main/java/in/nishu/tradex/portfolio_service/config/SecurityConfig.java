@@ -44,7 +44,7 @@ public class SecurityConfig {
                .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))// application does not store http session to remember or authenticate use
                .authorizeHttpRequests(auth->auth
                                .requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
-                               .requestMatchers("/swagger-ui/**","/v3-api-docs/**","/actuator/health").permitAll()
+                               .requestMatchers("/swagger-ui/**","/v3/api-docs/**","/actuator/health").permitAll()
                                .anyRequest().authenticated())
                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenService), UsernamePasswordAuthenticationFilter.class)
                .build();

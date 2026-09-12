@@ -50,6 +50,7 @@ public class TradeOrder {
     private BigDecimal totalAmount;
 
     @Enumerated(EnumType.STRING)
+    @Builder.Default
     @Column(nullable = false,length = 24)
     private OrderStatus status=OrderStatus.EXECUTED;
 

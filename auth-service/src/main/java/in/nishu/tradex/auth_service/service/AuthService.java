@@ -9,6 +9,7 @@ import in.nishu.tradex.auth_service.entity.RevokedToken;
 import in.nishu.tradex.auth_service.entity.User;
 import in.nishu.tradex.auth_service.repositories.RevokedTokenRepository;
 import in.nishu.tradex.auth_service.repositories.UserRepository;
+import in.nishu.tradex.common_lib.security.JwtPrincipal;
 import in.nishu.tradex.common_lib.security.JwtTokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.time.Instant;
 import java.util.Set;
 
 @Service
@@ -61,22 +63,30 @@ public class AuthService {
         return tokensFor(user);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public AuthResponse refresh(String refreshToken) {
-        if (refreshToken == null || revokedTokenRepository.existsById(sha256(refreshToken)) || !jwtTokenService.isRefreshToken(refreshToken)) {
+        String oldTokenHash= sha256(refreshToken);
+        if (refreshToken == null || revokedTokenRepository.existsById(oldTokenHash) || !jwtTokenService.isRefreshToken(refreshToken)) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid refresh token");
         }
-
-        var parsedToken = jwtTokenService.parse(refreshToken);
-
+        JwtPrincipal parsedToken=jwtTokenService.parse(refreshToken);
         User user = userRepository.findById(parsedToken.userId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid refresh token"));
+
+        revokedTokenRepository.save(RevokedToken.builder()
+                .tokenHash(oldTokenHash)
+                .build());
         return tokensFor(user);
     }
 
     @Transactional
     public void logout(String refreshToken) {
-        revokedTokenRepository.save(new RevokedToken(sha256(refreshToken)));
+        if(!revokedTokenRepository.existsById(sha256(refreshToken))) {
+            revokedTokenRepository.save(RevokedToken.builder().tokenHash(sha256(refreshToken)).build());
+            // revokedTokenRepository.save(new RevokedToken(sha256(refreshToken)));
+        }else{
+            throw new ResponseStatusException(HttpStatus.CONFLICT,"This Token already Exist");
+        }
     }
 
     private AuthResponse tokensFor(User user){
@@ -93,7 +103,7 @@ public class AuthService {
 
     private String sha256(String value) {
         try {
-            byte[] digest = MessageDigest.getInstance("SHA-2256").digest(value.getBytes(StandardCharsets.UTF_8));
+            byte[] digest = MessageDigest.getInstance("SHA-256").digest(value.getBytes(StandardCharsets.UTF_8));
             StringBuilder builder = new StringBuilder();
             for (byte b : digest) {
                 builder.append(String.format("%02x", b));

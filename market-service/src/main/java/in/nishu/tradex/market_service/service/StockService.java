@@ -37,10 +37,11 @@ public class StockService {
     @Transactional(readOnly = true)
     public List<StockResponse> search(String q){
         if(q==null||q.isEmpty()) return List.of();
-        return stockRepository.findTop10BySymbolContainingIgnoreCaseOrNameContainingIgnoreCaseOrderedBySymbolsAsc(q.trim(),q.trim())
+        return stockRepository.findTop10BySymbolContainingIgnoreCaseOrNameContainingIgnoreCaseOrderBySymbolAsc(q.trim(),q.trim())
                 .stream().map(this::toResponse)
                 .toList();
     }
+
     private StockResponse toResponse(Stock stock) {
         return new StockResponse(stock.getSymbol(),
                 stock.getName(),

@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface StockRepository extends JpaRepository<Stock,String> {
     Page<Stock> findBySymbolContainingIgnoreCaseOrNameContainingIgnoreCase(String symbol, String name, Pageable pageable);
-    List<Stock> findTop10BySymbolContainingIgnoreCaseOrNameContainingIgnoreCaseOrderedBySymbolsAsc(String symbol, String name);
+    List<Stock> findTop10BySymbolContainingIgnoreCaseOrNameContainingIgnoreCaseOrderBySymbolAsc(String symbol, String name);
 }

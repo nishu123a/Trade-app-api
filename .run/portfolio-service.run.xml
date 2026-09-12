@@ -7,6 +7,7 @@
     </option>
     <option name="MAIN_CLASS_NAME" value="in.nishu.tradex.portfolio_service.PortfolioServiceApplication" />
     <module name="portfolio-service" />
+    <option name="VM_PARAMETERS" value="-Duser.timezone=Asia/Kolkata" />
     <method v="2">
       <option name="Make" enabled="true" />
     </method>

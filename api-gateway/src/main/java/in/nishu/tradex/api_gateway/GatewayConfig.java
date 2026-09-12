@@ -23,7 +23,12 @@ public class GatewayConfig {
     RouteLocator tradexRoutes(RouteLocatorBuilder builder,
                               @Value("${tradex.services.auth:lb://auth-service}") String authServiceUrl,
                               @Value("${tradex.services.market:lb://market-service}") String marketServiceUrl,
-                              @Value("${tradex.services.portfolio:lb://portfolio-service}") String portfolioServiceUrl) {
+                              @Value("${tradex.services.portfolio:lb://portfolio-service}") String portfolioServiceUrl,
+                              @Value("${tradex.services.price-stream:lb://price-stream-service}") String priceStreamServiceUrl,
+                              @Value("${tradex.services.price-stream-ws:lb:ws://price-stream-service}") String priceStreamWebSocketUrl,
+                              @Value("${tradex.services.notification:lb://notification-service}") String notificationServiceUrl)
+
+    {
         return builder.routes()
                 .route("auth-api", route -> route
                         .path("/api/auth/**", "/api/users/**")
@@ -31,9 +36,27 @@ public class GatewayConfig {
                 .route("stock-api", route -> route
                         .path("/api/stocks/**")
                         .uri(marketServiceUrl))
+                .route("market-api",route->route
+                        .path("/api/market")
+                        .uri(marketServiceUrl))
+                .route("market-admin-api",route->route
+                        .path("/api/admin/market")
+                        .uri(marketServiceUrl))
                 .route("portfolio-api", route -> route
                         .path("/api/portfolio/**", "/api/orders/**","/api/transactions/**")
                         .uri(portfolioServiceUrl))
+                .route("price-api",route->route
+                        .path("/api/prices/**")
+                        .uri(priceStreamWebSocketUrl))
+
+                .route("price-ws",route->route
+                        .path("/ws","/ws/**")
+                        .uri(priceStreamWebSocketUrl))
+                .route("notification-api",route->route
+                        .path("/api/watchlist","/api/watchlist/**","/api/alerts","/api/alerts/**",
+                                "/api/notifications","/api/notifications/**","/api/dashboard","/api/dashboard/**")
+                        .filters(filter->filter.rewritePath("/api/(?<segment>.*)","/${segment"))
+                        .uri(notificationServiceUrl))
                 .route("auth-openapi", route -> route
                         .path("/auth/v3/api-docs")
                         .filters(filter -> filter.rewritePath("/auth/v3/api-docs",
@@ -49,6 +72,14 @@ public class GatewayConfig {
                         .filters(filter -> filter.rewritePath("/portfolio/v3/api-docs",
                                 "/v3/api-docs"))
                         .uri(portfolioServiceUrl))
+                .route("price-openapi",route->route
+                        .path("/prices/v3/api-docs")
+                        .filters(filter->filter.rewritePath("/prices/v3/api-docs","/v3/api-docs"))
+                        .uri(priceStreamServiceUrl))
+                .route("notification-openapi",route->route
+                        .path("/notifications/v3/api-docs")
+                        .filters(filter->filter.rewritePath("/notifications/v3/api-docs","v3/api-docs"))
+                        .uri(notificationServiceUrl))
                 .build();
     }
 

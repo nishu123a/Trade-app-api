@@ -1,6 +1,7 @@
 package in.nishu.tradex.auth_service.controller;
 import in.nishu.tradex.auth_service.dtos.AuthDtos.SignupRequest;
-import in.nishu.tradex.auth_service.service.AuthService;
+import  in.nishu.tradex.auth_service.service.AuthService;
+
 import jakarta.validation.Valid;
 import in.nishu.tradex.auth_service.dtos.AuthDtos.AuthResponse;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,7 @@ import in.nishu.tradex.auth_service.dtos.AuthDtos.LoginRequest;
 public class AuthController{
 
     private final AuthService authService;
+
     @PostMapping("/signup")
     @ResponseStatus(HttpStatus.CREATED)
     public AuthResponse signup(@Valid @RequestBody SignupRequest request){
@@ -28,7 +30,9 @@ public class AuthController{
 
     @PostMapping("/refresh")
     public AuthResponse refresh(@Valid @RequestBody RefreshRequest request) {
+        System.out.print("Reached rrefresh Controller");
         return authService.refresh(request.refreshToken());
+
     }
 
     @PostMapping("/logout")

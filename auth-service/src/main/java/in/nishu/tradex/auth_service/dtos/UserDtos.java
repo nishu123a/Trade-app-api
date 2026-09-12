@@ -5,8 +5,8 @@ import jakarta.validation.constraints.Size;
 
 public record UserDtos() {
     public record UpdateProfileRequest(
-            @JsonProperty("fullName")
-            String fullName){
+          //  @JsonProperty("fullName")
+          @NotBlank   String fullName){
 
     }
 

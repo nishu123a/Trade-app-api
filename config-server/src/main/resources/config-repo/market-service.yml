@@ -13,5 +13,20 @@ spring:
     open-in-view: false
     database-platform: org.hibernate.dialect.PostgreSQLDialect
 
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        spring.json.add.type.headers: false
+
+  tradex:
+    market:
+      topic: ${TRADEX_PRICE_TOPIC:tradex.market.prices}
+      history:
+        years: ${TRADEX_MARKET_HISTORY_YEARS:10}
+        interval: ${TRADEX_MARKET_HISTORY_INTTERVAL:DAILY}
+
   springdoc:
-    package-to-scan: in.nishu.tradex.auth_service.controller
+    package-to-scan: in.nishu.tradex.market_service.controller

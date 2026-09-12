@@ -16,6 +16,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -40,11 +41,11 @@ public class SecurityConfig {
     SecurityFilterChain seccurityFilterChain(HttpSecurity http,JwtTokenService jwtTokenService) throws Exception {
         return http
                 .cors(Customizer.withDefaults())
-                .csrf(csrf->csrf.disable())  //session +cookies were used before for autheniication now JWtToken is used
+                .csrf(AbstractHttpConfigurer::disable)  //session +cookies were used before for autheniication now JWtToken is used
                 .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth->auth
                         .requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
-                        .requestMatchers("/swagger-ui/**","/v3/api-docs/**","/actuator/health").permitAll()
+                        .requestMatchers("/swagger-ui/**","/v3/api-docs/**","/actuator/health","/actuator/info").permitAll()
                         .anyRequest().authenticated())
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenService), UsernamePasswordAuthenticationFilter.class)
                 .build();

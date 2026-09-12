@@ -6,7 +6,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.Instant;
 
@@ -14,16 +16,19 @@ import java.time.Instant;
 @Table(name="revoked_tokens")
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class RevokedToken {
     @Id
-    @Column(length = 28)
+    @Column(length = 64)
     private String tokenHash;
 
+    @CreationTimestamp
     @Column(nullable = false)
-    private Instant revokedAt=Instant.now();
+    private Instant revokedAt;
 
-    public RevokedToken(String tokenHash){
-        this.tokenHash =tokenHash;
-    }
+//    public RevokedToken(String tokenHash){
+//        this.tokenHash =tokenHash;
+//        this.revokedAt=Instant.now();
+//    }
 
 }

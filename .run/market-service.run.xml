@@ -5,6 +5,7 @@
     </option>
     <option name="MAIN_CLASS_NAME" value="in.nishu.tradex.market_service.MarketServiceApplication" />
     <module name="market-service" />
+    <option name="VM_PARAMETERS" value="-Duser.timezone=Asia/Kolkata" />
     <method v="2">
       <option name="Make" enabled="true" />
     </method>

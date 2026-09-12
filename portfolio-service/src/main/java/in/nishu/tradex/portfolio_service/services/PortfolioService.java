@@ -39,7 +39,7 @@ public class PortfolioService {
     public PortfolioService(HoldingRepository holdingRepository,
                             LedgerTransactionRepository ledgerTransactionRepository,
                             PortfolioAccountRepository portfolioAccountRepository, TradeOrderRepository tradeOrderRepository,
-                            MarketClient marketClient, @Value("${tradex.trading.starting-cash:10_00_000.00") BigDecimal startingCash) {
+                            MarketClient marketClient, @Value("${tradex.trading.starting-cash:1000000.00}") BigDecimal startingCash) {
         this.holdingRepository = holdingRepository;
         this.ledgerTransactionRepository = ledgerTransactionRepository;
         this.portfolioAccountRepository = portfolioAccountRepository;
