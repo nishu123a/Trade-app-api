@@ -1,0 +1,13 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Price Stream Service" type="Application" factoryName="Application">
+    <option name="envFilePaths">
+      <option value="$PROJECT_DIR$/.env" />
+    </option>
+    <option name="MAIN_CLASS_NAME" value="in.nishusinha.tradeapp.price_stream_service.PriceStreamServiceApplication" />
+    <module name="price-stream-service" />
+    <option name="VM_PARAMETERS" value="-Duser.timezone=Asia/Kolkata" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
