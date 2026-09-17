@@ -12,29 +12,27 @@ spring:
       ddl-auto: update
     open-in-view: false
     database-platform: org.hibernate.dialect.PostgreSQLDialect
-    data:
-      redis:
-        host: ${REDIS_HOST:localhost}
-        port: ${REDIS_PORT:6379}
-        timeout: 2s
-    kafka:
-      bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
-      consumer:
-        group-id: notification-service
-        auto-offset-reset: latest
-        key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-        value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
-        properties:
-          spring.json.trusted.packages: in.nishu.tradex.notification_service.dtos,in.nishu.tradex.price_stream_service.dtos,in.nishu.tradex.market_service.dtos
-          spring.json.value.default.type: in.nishu.tradex.notification_service.dtos.PriceTick
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      timeout: 2s
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    consumer:
+      group-id: notification-service
+      auto-offset-reset: latest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: in.nishu.tradex.notification_service.dtos,in.nishu.tradex.price_stream_service.dtos,in.nishu.tradex.market_service.dtos
+        spring.json.value.default.type: in.nishu.tradex.notification_service.dtos.PriceTick
 
-  tradex:
-    notifications:
-      price-topic: ${TRADEX_PRICE_TOOPIC:tradex.market.prices}
-      watchlist-cache-ttl-minutes: ${TRADEX_WATCHLIST_CACHE_TTL_MINUTES:10}
-      notification-limit: ${TRADEX_NOTIFICATION_LIMIT:100}
+tradex:
+  notifications:
+    price-topic: ${TRADEX_PRICE_TOPIC:tradex.market.prices}
+    watchlist-cache-ttl-minutes: ${TRADEX_WATCHLIST_CACHE_TTL_MINUTES:10}
+    notification-limit: ${TRADEX_NOTIFICATION_LIMIT:100}
 
-  springdoc:
-    packages_to-scan: in.nishu.tradex.notification_service.controllers
-
-
+springdoc:
+  packages-to-scan: in.nishu.tradex.notification_service.controllers

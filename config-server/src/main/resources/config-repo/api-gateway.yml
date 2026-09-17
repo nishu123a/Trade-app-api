@@ -1,12 +1,12 @@
 server:
-  port: ${API_GATEWAY_PORT:8080}
+  port: ${API_GATEWAY_PORT}
 
 tradex:
   services:
     auth: lb://auth-service
     market: lb://market-service
     portfolio: lb://portfolio-service
-    price-stream: lb://price-stream-sservice
+    price-stream: lb://price-stream-service
     price-stream-ws: lb:ws://price-stream-service
     notification: lb://notification-service
 
@@ -14,8 +14,8 @@ spring:
   cloud:
     gateway:
       httpclient:
-        connect-timeout: 3000
-        response-timeout: 10s
+        connect-timeout: 5000
+        response-timeout: 60s
 
 springdoc:
   swagger-ui:
@@ -30,7 +30,4 @@ springdoc:
       - name: Price Stream Service
         url: /prices/v3/api-docs
       - name: Notification Service
-        url: /notification/v3/api-docs
-
-test:
-  my-name: api-default
+        url: /notifications/v3/api-docs

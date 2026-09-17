@@ -1,5 +1,5 @@
 server:
-  port: ${AUTH_SERVICE_PORT:8081}
+  port: ${AUTH_SERVICE_PORT}
 
 spring:
   datasource:
@@ -7,19 +7,36 @@ spring:
     username: ${AUTH_DB_USERNAME:${POSTGRES_USER}}
     password: ${AUTH_DB_PASSWORD:${POSTGRES_PASSWORD}}
     driver-class-name: org.postgresql.Driver
-
   jpa:
     hibernate:
       ddl-auto: update
     open-in-view: false
     database-platform: org.hibernate.dialect.PostgreSQLDialect
 
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${AUTH_EMAIL_FROM:covisionteam@gmail.com}
+    password: ${AUTH_EMAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 5MB
+
+tradex:
+  email:
+    from: ${AUTH_EMAIL_FROM:noreply@tradex.com}
+  cloudinary:
+    cloud-name: ${CLOUDINARY_CLOUD_NAME}
+    api-key: ${CLOUDINARY_API_KEY}
+    api-secret: ${CLOUDINARY_API_SECRET}
 
 springdoc:
   packages-to-scan: in.nishu.tradex.auth_service.controller
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: health,info
