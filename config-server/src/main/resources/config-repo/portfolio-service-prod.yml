@@ -4,7 +4,7 @@ server:
 
 spring:
   datasource:
-    url: ${PORTFOLIO_DB_URL:jdbc:postgresql://postgres:5432/${POSTGRES_DB:tradex}}
+    url: ${PORTFOLIO_DB_URL:jdbc:postgresql://postgres:5432/${POSTGRES_DB:tradeapp}}
     username: ${PORTFOLIO_DB_USERNAME:${POSTGRES_USER}}
     password: ${PORTFOLIO_DB_PASSWORD:${POSTGRES_PASSWORD}}
   jpa:

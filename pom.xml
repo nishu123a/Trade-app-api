@@ -3,8 +3,8 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-    <groupId>in.nishu.tradex</groupId>
-	<artifactId>tradex</artifactId>
+    <groupId>in.nishusinha.tradeapp</groupId>
+	<artifactId>tradeapp</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
@@ -20,7 +20,7 @@
         <module>market-service</module>
         <module>portfolio-service</module>
         <module>notification-service</module>
-        <module>price-stream-services</module>
+        <module>price-stream-service</module>
 
 
     </modules>

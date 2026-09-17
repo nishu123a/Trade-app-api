@@ -2,7 +2,7 @@ version: "3.8"  #docker compose file format version
 
 services:
   rabbitmq:
-    container_name: tradex_configserver_rabbitmq
+    container_name: tradeapp_configserver_rabbitmq
     image: rabbitmq:4-management
     ports:
       - "5672:5672"
@@ -86,7 +86,7 @@ services:
 
   kafka_container:
     image: apache/kafka:latest
-    container_name: tradex_kafka
+    container_name: tradeapp_kafka
     restart: unless-stopped
     ports:
       - "9092:9092"
@@ -116,7 +116,7 @@ services:
 
   redis:
     image: redis:latest
-    container_name: tradex_redis
+    container_name: tradeapp_redis
     restart: unless-stopped
     ports:
       - "6379:6379"
@@ -131,14 +131,14 @@ networks:
 
 volumes:
   postgres_data:
-    name: tradex_postgres_volume
+    name: tradeapp_postgres_volume
   pgadmin_data:
-    name: tradex_pgadmin_volume
+    name: tradeapp_pgadmin_volume
   config_rabbitmq_data:
-    name: tradex_config_rabbitmq_volume
+    name: tradeapp_config_rabbitmq_volume
   redis_data:
-    name: tradex_redis_volume
+    name: tradeapp_redis_volume
   kafka_data:
-    name: tradex_kafka_volume
+    name: tradeapp_kafka_volume
 
 

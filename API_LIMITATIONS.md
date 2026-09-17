@@ -1,6 +1,6 @@
-# TradeX — API Limitations & Architecture Constraints
+# tradeapp — API Limitations & Architecture Constraints
 
-> **Document Scope:** Comprehensive reference for system constraints, data limits, window clamping rules, timeouts, and trading limitations across the TradeX backend microservices and API gateway.
+> **Document Scope:** Comprehensive reference for system constraints, data limits, window clamping rules, timeouts, and trading limitations across the tradeapp backend microservices and API gateway.
 
 ---
 
@@ -28,7 +28,7 @@
 
 ## 1. Overview & Simulation Architecture
 
-TradeX is an offline, self-contained paper trading platform that does not connect to external market data vendors (e.g. NSE, Bloomberg, Yahoo Finance). Instead, it uses a deterministic synthetic data generator and a real-time stochastic simulator.
+tradeapp is an offline, self-contained paper trading platform that does not connect to external market data vendors (e.g. NSE, Bloomberg, Yahoo Finance). Instead, it uses a deterministic synthetic data generator and a real-time stochastic simulator.
 
 Because all historical candles and live ticks are simulated and stored in PostgreSQL (`market_price_candles_history`), unbounded client requests can create severe computational, database, and network bottlenecks if left unconstrained.
 
@@ -111,8 +111,8 @@ flowchart TD
 
 | Layer | Configuration Location | Setting | Value | Previous Value (Cause of Issue) |
 | :--- | :--- | :--- | :--- | :--- |
-| **Browser (Axios Client)** | `trade-x-ui/src/api/client.ts` | `const TIMEOUT` | **60,000 ms** (60s) | `15_000 ms` (15s) — **Cancelled requests at 15s** |
-| **Market API Function** | `trade-x-ui/src/api/market.api.ts` | `timeout` option | **60,000 ms** (60s) | Inherited default |
+| **Browser (Axios Client)** | `tradeapp-ui/src/api/client.ts` | `const TIMEOUT` | **60,000 ms** (60s) | `15_000 ms` (15s) — **Cancelled requests at 15s** |
+| **Market API Function** | `tradeapp-ui/src/api/market.api.ts` | `timeout` option | **60,000 ms** (60s) | Inherited default |
 | **API Gateway HTTP Client** | `api-gateway.yml`, `api-gateway-prod.yml` | `response-timeout` | **60s** | `10s` — **Timed out backend calls at 10s** |
 | **API Gateway Connect** | `api-gateway.yml`, `api-gateway-prod.yml` | `connect-timeout` | **5000 ms** | `3000 ms` |
 | **Nginx Reverse Proxy** | `nginx/conf/nginx.conf` | `send_timeout`, `keepalive_timeout` | **60s**, **65s** | 60s |
@@ -130,7 +130,7 @@ flowchart TD
 ## 4. Live Price Generation & Reseeding Constraints
 
 ### Second Candle Generation
-- When `tradex.market.history.interval=SECONDS`, `HistoricalMarketDataSeeder.generateOngoingCandle()` runs on a fixed delay of **1,000 ms** (1 second).
+- When `tradeapp.market.history.interval=SECONDS`, `HistoricalMarketDataSeeder.generateOngoingCandle()` runs on a fixed delay of **1,000 ms** (1 second).
 - It generates the next second candle using the live price from `LivePriceService` and the previous candle's close.
 
 ### Gap & Divergence Thresholds

@@ -1,4 +1,4 @@
-name: Deploy TradeX API to OCI instance
+name: Deploy tradeapp API to OCI instance
 
 on:
   push:
@@ -35,7 +35,7 @@ jobs:
   deploy:
     name: Deploy to Oracle Cloud VM
     runs-on: ubuntu-latest
-    environment: TradeX API Production
+    environment: tradeapp API Production
 
     steps:
       - name: Checkout Code (for reference / commit info)
@@ -66,7 +66,7 @@ jobs:
           HOST: ${{ secrets.OCI_HOST }}
           USERNAME: ${{ vars.OCI_USERNAME || secrets.OCI_USERNAME || 'ubuntu' }}
           PORT: ${{ vars.OCI_PORT || secrets.OCI_PORT || '22' }}
-          DEPLOY_PATH: ${{ vars.OCI_DEPLOY_PATH || secrets.OCI_DEPLOY_PATH || '~/trade-x-api' }}
+          DEPLOY_PATH: ${{ vars.OCI_DEPLOY_PATH || secrets.OCI_DEPLOY_PATH || '~/tradeapp-api' }}
         run: |
           if [ -n "$PROD_ENV_FILE" ]; then
             echo "==> Syncing .env to remote server..."
@@ -82,11 +82,11 @@ jobs:
           HOST: ${{ secrets.OCI_HOST }}
           USERNAME: ${{ vars.OCI_USERNAME || secrets.OCI_USERNAME || 'ubuntu' }}
           PORT: ${{ vars.OCI_PORT || secrets.OCI_PORT || '22' }}
-          DEPLOY_PATH: ${{ vars.OCI_DEPLOY_PATH || secrets.OCI_DEPLOY_PATH || '~/trade-x-api' }}
+          DEPLOY_PATH: ${{ vars.OCI_DEPLOY_PATH || secrets.OCI_DEPLOY_PATH || '~/tradeapp-api' }}
           TARGET_SERVICE: ${{ inputs.service || 'all' }}
           NO_CACHE: ${{ inputs.no_cache || false }}
           MANAGE_SSL: ${{ inputs.manage_ssl || false }}
-          SSL_EMAIL: ${{ vars.SSL_EMAIL || secrets.SSL_EMAIL || 'shubhamprakash444@gmail.com' }}
+          SSL_EMAIL: ${{ vars.SSL_EMAIL || secrets.SSL_EMAIL || 'sinhanishu1610@gmail.com@gmail.com' }}
         run: |
           ssh -o ServerAliveInterval=60 -o ServerAliveCountMax=30 -p "$PORT" "$USERNAME@$HOST" \
             "DEPLOY_PATH='$DEPLOY_PATH' TARGET_SERVICE='$TARGET_SERVICE' NO_CACHE='$NO_CACHE' MANAGE_SSL='$MANAGE_SSL' SSL_EMAIL='$SSL_EMAIL' bash -s" << 'EOF'
@@ -139,7 +139,7 @@ jobs:
             # ========================================================
             # SSL Certificate Management (Certbot)
             # ========================================================
-            CERT_PATH="/etc/letsencrypt/live/api.tradex.shubhamprakash681.in/fullchain.pem"
+            CERT_PATH="/etc/letsencrypt/live/api.tradeapp.nishusinha.in/fullchain.pem"
             CERT_EXISTS=$(docker compose -f docker-compose-prod.yml run --rm --entrypoint "" certbot sh -c "[ -f '$CERT_PATH' ] && echo 'yes' || echo 'no'" 2>/dev/null || echo "no")
 
             if [ "$CERT_EXISTS" != "yes" ] || [ "$MANAGE_SSL" = "true" ]; then
@@ -147,11 +147,11 @@ jobs:
               docker compose -f docker-compose-prod.yml run --rm certbot certonly \
                 --webroot \
                 --webroot-path=/var/www/certbot \
-                --email "${SSL_EMAIL:-shubhamprakash444@gmail.com}" \
+                --email "${SSL_EMAIL:-nishusinha@gmail.com}" \
                 --agree-tos \
                 --no-eff-email \
-                -d api.tradex.shubhamprakash681.in \
-                -d www.api.tradex.shubhamprakash681.in
+                -d api.tradeapp.nishusinha.in \
+                -d www.api.tradeapp.nishusinha.in
 
               echo "==> Reloading Nginx to switch to HTTPS configuration..."
               docker compose -f docker-compose-prod.yml up -d --force-recreate nginx

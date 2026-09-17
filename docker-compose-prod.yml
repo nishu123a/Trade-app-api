@@ -1,4 +1,4 @@
-name: tradex
+name: tradeapp
 
 x-service-environment: &service-environment
   SPRING_PROFILES_ACTIVE: prod
@@ -9,10 +9,10 @@ x-service-environment: &service-environment
   SPRING_CLOUD_CONFIG_FAIL_FAST: "true"
   CONFIG_SERVER_URL: http://config-server:${CONFIG_SERVER_PORT:-8888}
   EUREKA_SERVER_URL: http://discovery-server:${EUREKA_SERVER_PORT:-8761}/eureka/
-  POSTGRES_USER: ${POSTGRES_USER:-tradex}
+  POSTGRES_USER: ${POSTGRES_USER:-tradeapp}
   POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
-  POSTGRES_DB: ${POSTGRES_DB:-tradex}
-  TRADEX_JWT_SECRET: ${TRADEX_JWT_SECRET:?Set TRADEX_JWT_SECRET in .env}
+  POSTGRES_DB: ${POSTGRES_DB:-tradeapp}
+  tradeapp_JWT_SECRET: ${tradeapp_JWT_SECRET:?Set tradeapp_JWT_SECRET in .env}
   AUTH_EMAIL_FROM: ${AUTH_EMAIL_FROM:-covisionteam@gmail.com}
   AUTH_EMAIL_PASSWORD: ${AUTH_EMAIL_PASSWORD:-?Set AUTH_EMAIL_PASSWORD in .env}
   CLOUDINARY_CLOUD_NAME: ${CLOUDINARY_CLOUD_NAME:-?Set CLOUDINARY_CLOUD_NAME in .env}
@@ -24,23 +24,23 @@ x-service-environment: &service-environment
   RABBITMQ_HOST: rabbitmq
   RABBITMQ_PORT: "5672"
   JPA_DDL_AUTO: ${JPA_DDL_AUTO:-update}
-  TRADEX_PRICE_TOPIC: ${TRADEX_PRICE_TOPIC:-tradex.market.prices}
-  TRADEX_MARKET_HISTORY_YEARS: ${TRADEX_MARKET_HISTORY_YEARS:-10}
-  TRADEX_MARKET_HISTORY_INTERVAL: ${TRADEX_MARKET_HISTORY_INTERVAL:-SECONDS}
-  TRADEX_MARKET_GENERATION_DELAY_MS: ${TRADEX_MARKET_GENERATION_DELAY_MS:-1000}
-  TRADEX_STARTING_CASH: ${TRADEX_STARTING_CASH:-1000000.00}
-  TRADEX_PRICE_GENERATION_INTERVAL_MS: ${TRADEX_PRICE_GENERATION_INTERVAL_MS:-2000}
-  TRADEX_PRICE_HISTORY_LIMIT: ${TRADEX_PRICE_HISTORY_LIMIT:-500}
-  TRADEX_PRICE_SYMBOLS: ${TRADEX_PRICE_SYMBOLS:-RELIANCE,TCS,INFY,HDFCBANK,ICICIBANK,SBIN,ITC,LT,AXISBANK,BHARTIARTL,MARUTI,TITAN,ASIANPAINT,NIFTYBEES,BANKBEES}
-  TRADEX_ALLOWED_ORIGINS: ${TRADEX_ALLOWED_ORIGINS:-https://tradex.shubhamprakash681.in,https://www.tradex.shubhamprakash681.in}
-  TRADEX_WATCHLIST_CACHE_TTL_MINUTES: ${TRADEX_WATCHLIST_CACHE_TTL_MINUTES:-10}
-  TRADEX_NOTIFICATION_LIMIT: ${TRADEX_NOTIFICATION_LIMIT:-100}
+  tradeapp_PRICE_TOPIC: ${tradeapp_PRICE_TOPIC:-tradeapp.market.prices}
+  tradeapp_MARKET_HISTORY_YEARS: ${tradeapp_MARKET_HISTORY_YEARS:-10}
+  tradeapp_MARKET_HISTORY_INTERVAL: ${tradeapp_MARKET_HISTORY_INTERVAL:-SECONDS}
+  tradeapp_MARKET_GENERATION_DELAY_MS: ${tradeapp_MARKET_GENERATION_DELAY_MS:-1000}
+  tradeapp_STARTING_CASH: ${tradeapp_STARTING_CASH:-1000000.00}
+  tradeapp_PRICE_GENERATION_INTERVAL_MS: ${tradeapp_PRICE_GENERATION_INTERVAL_MS:-2000}
+  tradeapp_PRICE_HISTORY_LIMIT: ${tradeapp_PRICE_HISTORY_LIMIT:-500}
+  tradeapp_PRICE_SYMBOLS: ${tradeapp_PRICE_SYMBOLS:-RELIANCE,TCS,INFY,HDFCBANK,ICICIBANK,SBIN,ITC,LT,AXISBANK,BHARTIARTL,MARUTI,TITAN,ASIANPAINT,NIFTYBEES,BANKBEES}
+  tradeapp_ALLOWED_ORIGINS: ${tradeapp_ALLOWED_ORIGINS:-https://tradeapp.nishusinha.in,https://www.tradeapp.nishusinha.in}
+  tradeapp_WATCHLIST_CACHE_TTL_MINUTES: ${tradeapp_WATCHLIST_CACHE_TTL_MINUTES:-10}
+  tradeapp_NOTIFICATION_LIMIT: ${tradeapp_NOTIFICATION_LIMIT:-100}
 
 x-java-service: &java-service
   restart: unless-stopped
   pull_policy: build
   networks:
-    - tradex
+    - tradeapp
   environment:
     <<: *service-environment
   healthcheck:
@@ -69,7 +69,7 @@ services:
       - certbot-etc:/etc/letsencrypt:ro
       - certbot-webroot:/var/www/certbot:ro
     networks:
-      - tradex
+      - tradeapp
 
     healthcheck:
       test: ["CMD-SHELL", "wget -qO- http://127.0.0.1/health | grep -q healthy"]
@@ -90,15 +90,15 @@ services:
     restart: unless-stopped
 
     environment:
-      POSTGRES_USER: ${POSTGRES_USER:-tradex}
+      POSTGRES_USER: ${POSTGRES_USER:-tradeapp}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
-      POSTGRES_DB: ${POSTGRES_DB:-tradex}
+      POSTGRES_DB: ${POSTGRES_DB:-tradeapp}
 
     volumes:
       - postgres-data:/var/lib/postgresql/data
 
     networks:
-      - tradex
+      - tradeapp
 
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
@@ -123,7 +123,7 @@ services:
       - redis-data:/data
 
     networks:
-      - tradex
+      - tradeapp
 
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
@@ -150,7 +150,7 @@ services:
       - rabbitmq-data:/var/lib/rabbitmq
 
     networks:
-      - tradex
+      - tradeapp
 
     healthcheck:
       test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
@@ -187,7 +187,7 @@ services:
       - kafka-data:/var/lib/kafka/data
 
     networks:
-      - tradex
+      - tradeapp
 
     healthcheck:
       test: ["CMD-SHELL", "/opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:9092 --list >/dev/null 2>&1"]
@@ -491,19 +491,19 @@ services:
   # ==========================================================
   certbot:
     image: certbot/certbot:latest
-    container_name: tradex-certbot
+    container_name: tradeapp-certbot
     volumes:
       - certbot-etc:/etc/letsencrypt
       - certbot-var:/var/lib/letsencrypt
       - certbot-webroot:/var/www/certbot
     networks:
-      - tradex
+      - tradeapp
 
 # ============================================================
 # Networks
 # ============================================================
 networks:
-  tradex:
+  tradeapp:
     driver: bridge
 
 # ============================================================
@@ -511,16 +511,16 @@ networks:
 # ============================================================
 volumes:
   postgres-data:
-    name: tradex_postgres_volume_prod
+    name: tradeapp_postgres_volume_prod
   redis-data:
-    name: tradex_redis_volume_prod
+    name: tradeapp_redis_volume_prod
   rabbitmq-data:
-    name: tradex_config_rabbitmq_volume_prod
+    name: tradeapp_config_rabbitmq_volume_prod
   kafka-data:
-    name: tradex_kafka_volume_prod
+    name: tradeapp_kafka_volume_prod
   certbot-etc:
-    name: tradex_certbot_etc
+    name: tradeapp_certbot_etc
   certbot-var:
-    name: tradex_certbot_var
+    name: tradeapp_certbot_var
   certbot-webroot:
-    name: tradex_certbot_webroot
+    name: tradeapp_certbot_webroot

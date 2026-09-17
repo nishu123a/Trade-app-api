@@ -11,10 +11,10 @@ management:
       exposure:
         include: health,info
 
-tradex:
+tradeapp:
   jwt:
-    issuer: tradex
-    secret: ${TRADEX_JWT_SECRET}
+    issuer: tradeapp
+    secret: ${tradeapp_JWT_SECRET}
     access-token-minutes: 30
     refresh-token-days: 7
 

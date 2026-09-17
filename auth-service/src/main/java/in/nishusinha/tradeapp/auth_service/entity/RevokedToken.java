@@ -1,0 +1,25 @@
+package in.nishusinha.tradeapp.auth_service.entity;
+
+import java.time.Instant;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.NoArgsConstructor;
+
+@Entity
+@Table(name = "revoked_tokens")
+@NoArgsConstructor
+public class RevokedToken {
+    @Id
+    @Column(length = 128)
+    private String tokenHash;
+
+    @Column(nullable = false)
+    private Instant revokedAt = Instant.now();
+
+    public RevokedToken(String tokenHash) {
+        this.tokenHash = tokenHash;
+    }
+}

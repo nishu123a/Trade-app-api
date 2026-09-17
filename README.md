@@ -1,10 +1,10 @@
-# TradeX – Real-Time Paper Trading Platform
+# tradeapp – Real-Time Paper Trading Platform
 
 ## Project Overview
 
-TradeX is a production-inspired full-stack paper trading platform built using **Java (Spring Boot)** and **React**. The application simulates a modern stock trading platform similar to Groww or INDmoney without performing any real financial transactions.
+tradeapp is a production-inspired full-stack paper trading platform built using **Java (Spring Boot)** and **React**. The application simulates a modern stock trading platform similar to Groww or INDmoney without performing any real financial transactions.
 
-Unlike traditional demo trading applications, TradeX is **completely self-contained** and does not rely on any third-party market data providers. Instead, it contains its own market simulation engine capable of generating realistic historical and live stock market data.
+Unlike traditional demo trading applications, tradeapp is **completely self-contained** and does not rely on any third-party market data providers. Instead, it contains its own market simulation engine capable of generating realistic historical and live stock market data.
 
 This approach ensures that the project remains fully reproducible, works completely offline after setup, and is not affected by API limits, pricing changes, or external service outages.
 
@@ -53,7 +53,7 @@ The application demonstrates modern backend architecture using Spring Boot, Kafk
 
 # Market Simulation Engine
 
-One of the primary goals of TradeX is to remain completely independent of external market data providers.
+One of the primary goals of tradeapp is to remain completely independent of external market data providers.
 
 Instead of consuming live stock prices from third-party APIs, the application generates and maintains its own market data.
 
@@ -344,7 +344,7 @@ Generate live simulated market prices.
 # Suggested Repository Structure
 
 ```
-tradex/
+tradeapp/
 ├── auth-service/
 ├── market-service/
 ├── portfolio-service/

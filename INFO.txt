@@ -10,11 +10,11 @@ Generate SSL certificate using certbot (nginx must be running on port 80):
   - docker compose -f docker-compose-prod.yml run --rm certbot certonly \
     --webroot \
     --webroot-path=/var/www/certbot \
-    --email shubhamprakash444@gmail.com \
+    --email sinhanishu1610@gmail.com@gmail.com \
     --agree-tos \
     --no-eff-email \
-    -d api.tradex.shubhamprakash681.in \
-    -d www.api.tradex.shubhamprakash681.in
+    -d api.tradeapp.nishusinha.in \
+    -d www.api.tradeapp.nishusinha.in
 
 Reload nginx so it switches to the HTTPS config:
   - docker compose -f docker-compose-prod.yml up -d --force-recreate nginx

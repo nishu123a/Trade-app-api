@@ -1,6 +1,6 @@
-# TradeX API — CI/CD Deployment Guide (Oracle Cloud Infrastructure)
+# tradeapp API — CI/CD Deployment Guide (Oracle Cloud Infrastructure)
 
-This guide documents the automated deployment pipeline for TradeX microservices to an Oracle Cloud Infrastructure (OCI) compute instance using GitHub Actions and Docker Compose.
+This guide documents the automated deployment pipeline for tradeapp microservices to an Oracle Cloud Infrastructure (OCI) compute instance using GitHub Actions and Docker Compose.
 
 ---
 
@@ -51,7 +51,7 @@ Configure these in your GitHub repository under **Settings** &rarr; **Secrets an
 | `OCI_SSH_KEY` | **Yes** | `-----BEGIN OPENSSH PRIVATE KEY-----...` | Private SSH key matching the public key authorized on the VM (`~/.ssh/authorized_keys`). |
 | `OCI_USERNAME` | *No* | `ubuntu` | SSH user for the instance (`ubuntu` for Ubuntu, `opc` for Oracle Linux). |
 | `OCI_PORT` | *No* | `22` | SSH port of your instance. |
-| `OCI_DEPLOY_PATH` | *No* | `~/trade-x-api` | Path where the repository is cloned on the VM. |
+| `OCI_DEPLOY_PATH` | *No* | `~/tradeapp-api` | Path where the repository is cloned on the VM. |
 | `PROD_ENV_FILE` | *No* | *(Contents of production .env)* | Raw content of `.env`. If omitted, the workflow will use the existing `.env` file already present on the server. |
 
 ---
@@ -68,8 +68,8 @@ newgrp docker
 ### B. Clone the Repository
 Clone the repository to the designated deployment directory:
 ```bash
-git clone https://github.com/shubhamprakash681/trade-x-api.git ~/trade-x-api
-cd ~/trade-x-api
+git clone https://github.com/nishu123a/tradeapp-api.git ~/tradeapp-api
+cd ~/tradeapp-api
 ```
 
 ### C. Create Production `.env`
@@ -100,23 +100,23 @@ chmod 600 .env
 
 ## 5. Automated SSL Certificate Management (Let's Encrypt / Certbot)
 
-The GitHub Actions workflow now automatically handles SSL generation and renewal based on [INFO.txt](file:///home/shubham/Dev/java_projects/trade-x/trade-x-api/INFO.txt):
+The GitHub Actions workflow now automatically handles SSL generation and renewal based on [INFO.txt]:
 
 1. **Initial Deployment (No SSL cert exists)**:
    - When the stack first boots, Nginx starts in HTTP bootstrap mode on port 80.
-   - The workflow checks if `/etc/letsencrypt/live/api.tradex.shubhamprakash681.in/fullchain.pem` exists inside the `certbot-etc` volume.
+   - The workflow checks if `/etc/letsencrypt/live/api.tradeapp.nishusinha.in/fullchain.pem` exists inside the `certbot-etc` volume.
    - If not found, it automatically executes:
      ```bash
      docker compose -f docker-compose-prod.yml run --rm certbot certonly \
        --webroot \
        --webroot-path=/var/www/certbot \
-       --email shubhamprakash444@gmail.com \
+       --email sinhanishu1610@gmail.com \
        --agree-tos \
        --no-eff-email \
-       -d api.tradex.shubhamprakash681.in \
-       -d www.api.tradex.shubhamprakash681.in
+       -d api.tradeapp.nishusinha.in \
+       -d www.api.tradeapp.nishusinha.in
      ```
-   - Automatically reloads Nginx with `docker compose -f docker-compose-prod.yml up -d --force-recreate nginx` so `docker-entrypoint.sh` loads `tradex.production.conf` (HTTPS).
+   - Automatically reloads Nginx with `docker compose -f docker-compose-prod.yml up -d --force-recreate nginx` so `docker-entrypoint.sh` loads `tradeapp.production.conf` (HTTPS).
 
 2. **Subsequent Deployments**:
    - The workflow detects the existing certificate and runs `certbot renew` to check if renewal is needed without hitting Let's Encrypt rate limits.

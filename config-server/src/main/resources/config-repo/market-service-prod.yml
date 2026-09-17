@@ -4,7 +4,7 @@ server:
 
 spring:
   datasource:
-    url: ${MARKET_DB_URL:jdbc:postgresql://postgres:5432/${POSTGRES_DB:tradex}}
+    url: ${MARKET_DB_URL:jdbc:postgresql://postgres:5432/${POSTGRES_DB:tradeapp}}
     username: ${MARKET_DB_USERNAME:${POSTGRES_USER}}
     password: ${MARKET_DB_PASSWORD:${POSTGRES_PASSWORD}}
   jpa:
@@ -13,13 +13,13 @@ spring:
   kafka:
     bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:kafka:9092}
 
-tradex:
+tradeapp:
   market:
-    topic: ${TRADEX_PRICE_TOPIC:tradex.market.prices}
+    topic: ${tradeapp_PRICE_TOPIC:tradeapp.market.prices}
     history:
-      years: ${TRADEX_MARKET_HISTORY_YEARS:10}
-      interval: ${TRADEX_MARKET_HISTORY_INTERVAL:SECONDS}
-      generation-delay-ms: ${TRADEX_MARKET_GENERATION_DELAY_MS:1000}
+      years: ${tradeapp_MARKET_HISTORY_YEARS:10}
+      interval: ${tradeapp_MARKET_HISTORY_INTERVAL:SECONDS}
+      generation-delay-ms: ${tradeapp_MARKET_GENERATION_DELAY_MS:1000}
 
 springdoc:
   swagger-ui:

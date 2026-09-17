@@ -1,0 +1,37 @@
+package in.nishusinha.tradeapp.portfolio_service.dtos;
+
+import java.math.BigDecimal;
+import java.util.List;
+
+public record PortfolioDtos() {
+    public record PortfolioResponse(PortfolioSummaryResponse summary,
+                                    List<HoldingResponse> holdings) {
+    }
+
+    public record PortfolioSummaryResponse(
+            BigDecimal cashBalance,
+            BigDecimal holdingsValue,
+            BigDecimal totalValue,
+            BigDecimal investedValue,
+            BigDecimal unrealizedPnl,
+            BigDecimal unrealizedPnlPercent,
+            BigDecimal todayPnl,
+            BigDecimal todayPnlPercent
+    ) {
+    }
+
+    public record HoldingResponse(
+            String symbol,
+            String stockName,
+            BigDecimal quantity,
+            BigDecimal averagePrice,
+            BigDecimal lastPrice,
+            BigDecimal closePrice,
+            BigDecimal investedValue,
+            BigDecimal marketValue,
+            BigDecimal unrealizedPnl,
+            BigDecimal unrealizedPnlPercent,
+            BigDecimal todayPnl,
+            BigDecimal todayPnlPercent) {
+    }
+}

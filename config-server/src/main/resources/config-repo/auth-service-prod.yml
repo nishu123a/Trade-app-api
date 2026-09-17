@@ -4,16 +4,16 @@ server:
 
 spring:
   datasource:
-    url: ${AUTH_DB_URL:jdbc:postgresql://postgres:5432/${POSTGRES_DB:tradex}}
+    url: ${AUTH_DB_URL:jdbc:postgresql://postgres:5432/${POSTGRES_DB:tradeapp}}
     username: ${AUTH_DB_USERNAME:${POSTGRES_USER}}
     password: ${AUTH_DB_PASSWORD:${POSTGRES_PASSWORD}}
   jpa:
     hibernate:
       ddl-auto: ${JPA_DDL_AUTO:update}
 
-tradex:
+tradeapp:
   email:
-    from: ${AUTH_EMAIL_FROM:noreply@tradex.com}
+    from: ${AUTH_EMAIL_FROM:noreply@tradeapp.com}
   cloudinary:
     cloud-name: ${CLOUDINARY_CLOUD_NAME}
     api-key: ${CLOUDINARY_API_KEY}

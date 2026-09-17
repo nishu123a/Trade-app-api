@@ -3,7 +3,7 @@ server:
 
 spring:
   datasource:
-    url: ${PRICE_STREAM_DB_URL:jdbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5431}/${POSTGRES_DB:tradex_db}}
+    url: ${PRICE_STREAM_DB_URL:jdbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5431}/${POSTGRES_DB:tradeapp_db}}
     username: ${PRICE_STREAM_DB_USERNAME:${POSTGRES_USER}}
     password: ${PRICE_STREAM_DB_PASSWORD:${POSTGRES_PASSWORD}}
     driver-class-name: org.postgresql.Driver
@@ -25,20 +25,20 @@ spring:
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       properties:
-        spring.json.trusted.packages: in.nishu.tradex.price_stream_service.dtos
-        spring.json.value.default.type: in.nishu.tradex.price_stream_service.dtos.PriceTick
+        spring.json.trusted.packages: in.nishusinha.tradeapp.price_stream_service.dtos
+        spring.json.value.default.type: in.nishusinha.tradeapp.price_stream_service.dtos.PriceTick
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
       properties:
         spring.json.add.type.headers: false
 
-tradex:
+tradeapp:
   prices:
-    topic: ${TRADEX_PRICE_TOPIC:tradex.market.prices}
-    generation-interval-ms: ${TRADEX_PRICE_GENERATION_INTERVAL_MS:2000}
-    history-limit: ${TRADEX_PRICE_HISTORY_LIMIT:500}
-    symbols: ${TRADEX_PRICE_SYMBOLS:RELIANCE,TCS,INFY,HDFCBANK,ICICIBANK,SBIN,ITC,LT,AXISBANK,BHARTIARTL,MARUTI,TITAN,ASIANPAINT,NIFTYBEES,BANKBEES}
+    topic: ${tradeapp_PRICE_TOPIC:tradeapp.market.prices}
+    generation-interval-ms: ${tradeapp_PRICE_GENERATION_INTERVAL_MS:2000}
+    history-limit: ${tradeapp_PRICE_HISTORY_LIMIT:500}
+    symbols: ${tradeapp_PRICE_SYMBOLS:RELIANCE,TCS,INFY,HDFCBANK,ICICIBANK,SBIN,ITC,LT,AXISBANK,BHARTIARTL,MARUTI,TITAN,ASIANPAINT,NIFTYBEES,BANKBEES}
 
 springdoc:
-  packages-to-scan: in.nishu.tradex.price_stream_service.controllers
+  packages-to-scan: in.nishusinha.tradeapp.price_stream_service.controllers

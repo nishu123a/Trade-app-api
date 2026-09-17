@@ -4,7 +4,7 @@ server:
 
 spring:
   datasource:
-    url: ${NOTIFICATION_DB_URL:jdbc:postgresql://postgres:5432/${POSTGRES_DB:tradex}}
+    url: ${NOTIFICATION_DB_URL:jdbc:postgresql://postgres:5432/${POSTGRES_DB:tradeapp}}
     username: ${NOTIFICATION_DB_USERNAME:${POSTGRES_USER}}
     password: ${NOTIFICATION_DB_PASSWORD:${POSTGRES_PASSWORD}}
   jpa:
