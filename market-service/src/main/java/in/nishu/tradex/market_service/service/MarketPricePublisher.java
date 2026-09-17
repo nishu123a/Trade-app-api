@@ -5,7 +5,7 @@ import in.nishu.tradex.market_service.dtos.PriceTrick;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.kafka.core.KafkaTemplate;
-import stock.Helper;
+import in.nishu.tradex.common_lib.stock.Helper;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import stock.Helper;
+import in.nishu.tradex.common_lib.stock.Helper;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
