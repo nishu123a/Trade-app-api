@@ -1,0 +1,23 @@
+server:
+  port: ${API_GATEWAY_PORT:8080}
+  shutdown: graceful
+
+tradex:
+  cors:
+    allowed-origins: ${TRADEX_ALLOWED_ORIGINS:https://tradex.shubhamprakash681.in,https://www.tradex.shubhamprakash681.in}
+
+spring:
+  cloud:
+    gateway:
+      httpclient:
+        connect-timeout: ${GATEWAY_CONNECT_TIMEOUT_MS:5000}
+        response-timeout: ${GATEWAY_RESPONSE_TIMEOUT:60s}
+
+management:
+  endpoint:
+    gateway:
+      access: read-only
+
+springdoc:
+  swagger-ui:
+    disable-swagger-default-url: true
